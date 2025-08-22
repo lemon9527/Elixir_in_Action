@@ -6,7 +6,7 @@ end
 defmodule Scan_card do
   def scan() do
     alias Circuits.I2C
-    {:ok, ref} = I2C.open("i2c-1")
+    {:ok, ref} = I2C.open("i2c-3")
     I2C.write(ref, 0x50, <<0x03, 0x03, 0x00, 0x00>>)
     Process.sleep(50)
     temp = read_until_ok(ref)
