@@ -13,3 +13,16 @@ end
 # Example usage:
 # user1 = %{"login" => "alice", "email" => "alice@example.com", "password" => "123456"}
 # user2 = %{"login" => "bob", "email" => "bob@example.com"}
+
+defmodule TestEnumReduce do
+  def test(list) do
+    Enum.reduce(
+      list,
+      0,
+      fn
+        x, acc when is_number(x) -> acc + x
+        _, acc -> acc
+      end
+    )
+  end
+end
