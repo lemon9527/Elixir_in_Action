@@ -1,7 +1,15 @@
 defmodule TodoList do
   defstruct next_id: 1, entries: %{}
 
-  def new(), do: %TodoList{}
+  def new(entries \\ []) do
+    Enum.reduce(
+      entries,
+      %TodoList{},
+      fn entry, todo_list_acc ->
+        add_entry(todo_list_acc, entry)
+      end
+    )
+  end
 
   def add_entry(todo_list, entry) do
     entry = Map.put(entry, :id, todo_list.next_id)
@@ -46,5 +54,15 @@ defmodule TodoList do
       entries: new_entries,
       next_id: todo_list.next_id - 1
     }
+  end
+end
+
+defmodule TodoList.CsvImporter do
+  def import(path) do
+    File.stream!(path)
+    |> Stream.map(fn line -> String.trim_trailing(line) end)
+    # |> Enum.each(fn line -> IO.puts("#{line}") end)
+    |> Stream.map(&String.split(&1, ","))
+    |> Enum.each(&IO.inspect(&1))
   end
 end
