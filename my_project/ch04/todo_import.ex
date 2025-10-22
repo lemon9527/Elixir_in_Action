@@ -63,6 +63,8 @@ defmodule TodoList.CsvImporter do
     |> Stream.map(fn line -> String.trim_trailing(line) end)
     # |> Enum.each(fn line -> IO.puts("#{line}") end)
     |> Stream.map(&String.split(&1, ","))
-    |> Enum.each(&IO.inspect(&1))
+    # |> Stream.map(fn [date_str, title] -> [Date.from_iso8601!(date_str), title] end)
+    |> Stream.map(fn [date_str, title] -> %{date: Date.from_iso8601!(date_str), title: title} end)
+    |> Enum.to_list()
   end
 end
